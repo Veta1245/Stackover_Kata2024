@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>com.jm.qa.platform</groupId>
-    <artifactId>jm</artifactId>
+    <artifactId>stackover_kata</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jm</name>
+    <name>stackover_kata</name>
     <description>Kata</description>
     <properties>
         <java.version>17</java.version>
@@ -92,9 +92,9 @@
 
         <!-- Swagger -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.2.32</version>
         </dependency>
         <!-- /Swagger -->
 
@@ -166,25 +166,6 @@
                 </configuration>
             </plugin>
 
-            <!-- For Swagger: documentation in YAML language -->
-            <plugin>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-maven-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <apiDocsUrl>http://localhost:8080/v3/api-docs</apiDocsUrl>
-                    <outputFileName>openapi.yaml</outputFileName>
-                    <outputDir>${project.build.directory}</outputDir>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
