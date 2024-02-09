@@ -614,3 +614,23 @@ this.mockMvc
 5. Если ожидаемые результаты не совпадут, тест сообщит об ошибке и распечатает все параметры. В ином случае вы увидите сообщение о том, что тест успешно пройден.
 
 ==========================================
+# Профиль для локального запуска приложения
+
+Для удобства разработки добавлен профиль - local, в котором можно указать параметры для подключения к локальной базе.
+В профиль параметры передаются через переменные окружения (environment variables).
+Параметры данного профиля находятся в файле application-local.properties.
+
+1) Для использования профиля local необходимо открыть "Run" -> "Edit configuration"
+![](src/main/resources/static/images/profile_tutor/run_editconfig.png)
+
+
+2) В окне выбрать конфигурацию и убедиться, что в выпадающем меню "Modify options" стоит галочка напротив "Environment variable" и "VM options"
+![](src/main/resources/static/images/profile_tutor/show_env_variables_and_vm_options.png)
+
+
+3) Нажать кнопку "Edit environment variables" и добавить туда все необходимые переменные.
+![](src/main/resources/static/images/profile_tutor/change_env_variables.png)
+
+4) Для запуска приложения в нужном профиле указать в VM options "-ea -Dspring.profiles.active=local" для профиля local или "-ea -Dspring.profiles.active=dev" для профиля dev
+![](src/main/resources/static/images/profile_tutor/add_vm_options.png)
+ 
