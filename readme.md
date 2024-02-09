@@ -629,6 +629,23 @@ this.mockMvc
 
 
 3) Нажать кнопку "Edit environment variables" и добавить туда все необходимые переменные.
+   HIBERNATE_DDL=;DATABASE_HOST=;DATABASE_PORT=;DATABASE_DB=;DATABASE_USERNAME=;DATABASE_PASSWORD=
+   
+где:
+   
+HIBERNATE_DDL - настройка ddl
+   
+DATABASE_HOST - адрес сервера (по умолчанию localhost)
+
+DATABASE_PORT - порт
+
+DATABASE_DB - название БД
+
+DATABASE_USERNAME - твой логин
+
+DATABASE_PASSWORD - твой пароль
+
+
 ![](src/main/resources/static/images/profile_tutor/change_env_variables.png)
 
 4) Для запуска приложения в нужном профиле указать в VM options "-ea -Dspring.profiles.active=local" для профиля local или "-ea -Dspring.profiles.active=dev" для профиля dev
