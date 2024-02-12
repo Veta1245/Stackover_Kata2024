@@ -61,4 +61,4 @@ document.querySelector("div").insertAdjacentHTML("afterbegin","<div id=\"left-si
     "\n" +
     "\n" +
     "\n" +
-    "</div>");
+    "</div>")
