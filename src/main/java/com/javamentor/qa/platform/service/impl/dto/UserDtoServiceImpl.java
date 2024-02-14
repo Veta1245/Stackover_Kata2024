@@ -16,7 +16,7 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     @Override
-    public Optional<UserDto> getById(Long userId) {
-        return userDtoDao.getById(userId);
+    public Optional<UserDto> getByUserId(Long userId) {
+        return userDtoDao.getByUserId(userId);
     }
 }

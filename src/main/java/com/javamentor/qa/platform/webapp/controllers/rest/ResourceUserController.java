@@ -6,18 +6,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/api/user")
 @AllArgsConstructor
-@Log
+@Slf4j
 public class ResourceUserController {
 
     private final UserDtoService userDtoService;
@@ -29,7 +29,9 @@ public class ResourceUserController {
     @GetMapping(value = "/{userId}")
     ResponseEntity<UserDto> getUserDtoById(@PathVariable(value = "userId") Long userId) {
         log.info("Get user by id=" + userId);
-        return ResponseEntity.of(userDtoService.getById(userId));
+        return userDtoService.getByUserId(userId)
+                .map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(new UserDto(), HttpStatus.NOT_FOUND));
     }
 
 }

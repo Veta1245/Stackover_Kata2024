@@ -17,7 +17,7 @@ public class UserDtoDaoImpl implements UserDtoDao {
 
 
     @Override
-    public Optional<UserDto> getById(Long userId) {
+    public Optional<UserDto> getByUserId(Long userId) {
 
         return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery(
                         """
