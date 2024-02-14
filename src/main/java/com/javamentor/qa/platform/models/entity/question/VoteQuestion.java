@@ -46,9 +46,9 @@ public class VoteQuestion implements Serializable {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private VoteType vote;
+    private VoteTypeQuestion vote;
 
-    public VoteQuestion(User user, Question question, VoteType vote) {
+    public VoteQuestion(User user, Question question, VoteTypeQuestion vote) {
         this.user = user;
         this.question = question;
         this.vote = vote;
@@ -60,7 +60,7 @@ public class VoteQuestion implements Serializable {
     }
 
     private void checkConstraints() {
-        if (vote != VoteType.UP && vote != VoteType.DOWN) {
+        if (vote != VoteTypeQuestion.UP && vote != VoteTypeQuestion.DOWN) {
             throw new ConstrainException("В сущности VoteQuestion допускается передача значения в поле VoteTypeQ только VoteTypeQ.UP или VoteTypeQ.DOWN");
         }
     }
