@@ -28,7 +28,7 @@ public class ResourceUserController {
             @ApiResponse(responseCode = "200", description = "OK") } )
     @GetMapping(value = "/{userId}")
     public ResponseEntity<UserDto> getUserDtoById(@PathVariable(value = "userId") Long userId) {
-        log.info("Get user by id=" + userId);
+        log.info("Get user by id = {}", userId);
         return userDtoService.getByUserId(userId)
                 .map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(new UserDto(), HttpStatus.NOT_FOUND));
