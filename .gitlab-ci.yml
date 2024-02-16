@@ -1,0 +1,11 @@
+stages:
+  - build
+
+build-job:
+  stage: build
+  image: maven:3.8.3-openjdk-17
+  script:
+    - mvn compile
+  cache:
+    paths:
+      - ./target
