@@ -13,5 +13,4 @@ public class QuestionDaoImpl extends ReadWriteDaoImpl<Question, Long> implements
 
     @PersistenceContext
     private EntityManager entityManager;
-
 }
