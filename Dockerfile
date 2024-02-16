@@ -1,0 +1,5 @@
+FROM postgres:16-alpine3.19
+
+ENV POSTGRES_USER postgres
+ENV POSTGRES_PASSWORD root
+
