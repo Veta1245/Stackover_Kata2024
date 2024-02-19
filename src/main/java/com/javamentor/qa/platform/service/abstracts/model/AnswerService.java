@@ -7,4 +7,5 @@ import com.javamentor.qa.platform.service.abstracts.repository.ReadWriteService;
 public interface AnswerService extends ReadWriteService<Answer, Long> {
     Answer getByAnswerIdWithoutUser(Long answerId, User user);
 
+    Answer getAnswerById(Long answerId, User user);
 }

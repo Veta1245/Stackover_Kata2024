@@ -11,6 +11,9 @@ import com.javamentor.qa.platform.service.abstracts.model.ReputationService;
 import com.javamentor.qa.platform.service.impl.repository.ReadWriteServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -22,6 +25,31 @@ public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long
         super(readWriteDao);
         this.reputationDao = reputationDao;
         this.answerService = answerService;
+    }
+
+    @Override
+    @Transactional
+    public Reputation addReputation(Long answerId, User user) {
+        Answer answer = answerService.getAnswerById(answerId, user);
+
+        Reputation reputation = reputationDao.getReputationByAnswerIdAndUser(answerId, user).orElse(null);
+
+        if (reputation == null) {
+
+            reputation = new Reputation();
+            reputation.setPersistDate(LocalDateTime.now());
+            reputation.setAuthor(answer.getUser());
+            reputation.setSender(user);
+            reputation.setCount(10);
+            reputation.setType(ReputationType.VoteAnswer);
+            reputation.setAnswer(answer);
+
+            reputationDao.persist(reputation);
+        } else {
+            reputation.setCount(10);
+            reputationDao.update(reputation);
+        }
+        return reputation;
     }
 
     @Override

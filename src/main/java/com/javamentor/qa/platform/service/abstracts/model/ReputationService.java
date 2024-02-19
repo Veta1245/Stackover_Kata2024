@@ -6,4 +6,6 @@ import com.javamentor.qa.platform.service.abstracts.repository.ReadWriteService;
 
 public interface ReputationService extends ReadWriteService<Reputation, Long> {
     Reputation getDownReputationByAnswerAndUser(Long answerId, User user);
+
+    Reputation addReputation(Long answerId, User user);
 }

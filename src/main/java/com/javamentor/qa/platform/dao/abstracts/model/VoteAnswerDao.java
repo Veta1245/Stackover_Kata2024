@@ -8,7 +8,9 @@ import com.javamentor.qa.platform.models.entity.user.User;
 import java.util.Optional;
 
 public interface VoteAnswerDao extends ReadWriteDao<VoteAnswer, Long> {
+    Optional<VoteAnswer> getVoteAnswerByAnswerIdAndUser(Long answerId, User user);
 
+    Long getAllTheVotesForThisAnswerUp(Answer answerUp);
     Optional<VoteAnswer> getVoteAnswerByUserAndAnswer(Long answerId, User user);
 
     Long downVoteCount(Answer answer);

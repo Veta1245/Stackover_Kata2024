@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface AnswerDao extends ReadWriteDao<Answer, Long> {
     Optional<Answer> getByAnswerIdWithoutUser(Long answerId, User user);
+    Optional<Answer> getAnswerById(Long answerId, User user);
 }

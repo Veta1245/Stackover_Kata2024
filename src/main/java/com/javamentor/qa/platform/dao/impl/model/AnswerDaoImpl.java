@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.Optional;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
@@ -18,6 +20,12 @@ public class AnswerDaoImpl extends ReadWriteDaoImpl<Answer, Long> implements Ans
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Override
+    public Optional<Answer> getAnswerById(Long answerId, User user) {
+        return SingleResultUtil.getSingleResultOrNull((Query) entityManager.createQuery("""
+                        from Answer a where a.id =: answerId and a.user.id !=: userId""", Answer.class).setParameter("answerId", answerId).
+                setParameter("userId", user.getId()));
+    }
     @Override
     public Optional<Answer> getByAnswerIdWithoutUser(Long answerId, User user) {
         return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("""

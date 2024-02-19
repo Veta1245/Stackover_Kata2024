@@ -1,6 +1,8 @@
 package com.javamentor.qa.platform.webapp.controllers.rest;
 
 import com.javamentor.qa.platform.models.entity.user.User;
+import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
+import com.javamentor.qa.platform.service.abstracts.model.ReputationService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.abstracts.model.VoteAnswerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +48,7 @@ public class ResourceAnswerController {
                                                @RequestParam("userId") Long userId) {
         try {
             //TODO: Взять юзера из секьюрити
-            User user = userService.getById(userId).orElseThrow(()->
+            User user = userService.getById(userId).orElseThrow(() ->
                     new EntityNotFoundException("User not found with id: " + userId));
             Long votesCount = voteAnswerService.downVoteAnswer(answerId, user);
             log.info("Успешно отправлен отрицательный голос на ответ с id {}", answerId);
@@ -54,6 +56,39 @@ public class ResourceAnswerController {
         } catch (Exception e) {
             log.error("При попытке отправить отрицательный голос на ответ с id {}, произошла ошибка", answerId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+        }
+    }
+
+
+    @PostMapping("/{answerId}/upVote")
+    @Operation(
+            summary = "Проголосовать Up за ответ",
+            description = "Увеличивает кол-во голосов на 1 и возвращает общее кол-во голосов" +
+                    " Увеличивает репутацию автору на +10 очков за голос UP")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешно увеличено кол-во очков репутации и возвращено общее кол-во голосов"),
+            @ApiResponse(responseCode = "401", description = "Пользователь не авторизован, принять голос нет возможности"),
+            @ApiResponse(responseCode = "404", description = "Страница не найдена, сервер не может найти страницу по запросу"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера при выполнении запроса")
+    })
+    public ResponseEntity<Long> upVoteAnswer(
+            @PathVariable("answerId") Long answerId,
+            @RequestParam("userId") Long userId) {
+        try {
+            //TODO: взять User из Security
+            User user = userService.getById(userId).orElseThrow(() ->
+                    new EntityNotFoundException("User not found with id: " + userId));
+
+
+            Long votesCount = voteAnswerService.voteUpToAnswer(answerId, user);
+            log.info("Отправка положительного голоса прошла успешно. ID вопроса: {}", answerId);
+            return new ResponseEntity<>(votesCount, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("При попытке голосования за ответ c ID {} произошла ошибка", answerId, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
+
