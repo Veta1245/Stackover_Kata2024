@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.Optional;
 
 @Repository
@@ -21,10 +20,29 @@ public class VoteAnswerDaoImpl extends ReadWriteDaoImpl<VoteAnswer, Long> implem
     private EntityManager entityManager;
 
     @Override
+    public Optional<VoteAnswer> getVoteAnswerByAnswerIdAndUser(Long answerId, User user) {
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("""
+                        from VoteAnswer v where v.answer.id =: answerId
+                        and v.user.id =:userId""", VoteAnswer.class)
+                .setParameter("answerId", answerId)
+                .setParameter("userId", user.getId()));
+    }
+
+    @Override
+    public Long getAllTheVotesForThisAnswerUp(Answer answerUp) {
+        return entityManager.createQuery("""
+                        select count(*) from VoteAnswer v where v.answer.id = : answerId
+                        and v.voteType =: voteType""", Long.class)
+                .setParameter("voteType", VoteType.UP)
+                .setParameter("answerId", answerUp.getId())
+                .getSingleResult();
+    }
+
+    @Override
     public Optional<VoteAnswer> getVoteAnswerByUserAndAnswer(Long answerId, User user) {
         return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery(
-                "SELECT voan FROM VoteAnswer voan WHERE user.id = :userId AND answer.id =:answerId",
-                VoteAnswer.class)
+                        "SELECT voan FROM VoteAnswer voan WHERE user.id = :userId AND answer.id =:answerId",
+                        VoteAnswer.class)
                 .setParameter("userId", user.getId())
                 .setParameter("answerId", answerId));
     }
@@ -32,8 +50,8 @@ public class VoteAnswerDaoImpl extends ReadWriteDaoImpl<VoteAnswer, Long> implem
     @Override
     public Long downVoteCount(Answer answer) {
         return (Long) entityManager.createQuery("""
-            SELECT COUNT(*) FROM VoteAnswer WHERE voteType = :voteType AND answer.id = :answer
-            """)
+                        SELECT COUNT(*) FROM VoteAnswer WHERE voteType = :voteType AND answer.id = :answer
+                        """)
                 .setParameter("voteType", VoteType.DOWN)
                 .setParameter("answer", answer.getId()).getSingleResult();
     }

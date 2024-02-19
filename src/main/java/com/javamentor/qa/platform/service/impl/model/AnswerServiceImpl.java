@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implements AnswerService {
     private final AnswerDao answerDao;
 
+
     public AnswerServiceImpl(ReadWriteDao<Answer, Long> readWriteDao, AnswerDao answerDao) {
         super(readWriteDao);
         this.answerDao = answerDao;
@@ -23,5 +24,12 @@ public class AnswerServiceImpl extends ReadWriteServiceImpl<Answer, Long> implem
          * Ответ, с исключением текущего юзера(юзер не может голосовать за себя)
          */
         return answerDao.getByAnswerIdWithoutUser(answerId,user).orElse(null);
+
+    }
+
+    @Override
+    public Answer getAnswerById(Long answerId, User user) {
+
+        return answerDao.getAnswerById(answerId, user).orElse(null);
     }
 }
