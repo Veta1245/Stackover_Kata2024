@@ -632,7 +632,9 @@ this.mockMvc
    HIBERNATE_DDL=;DATABASE_HOST=;DATABASE_PORT=;DATABASE_DB=;DATABASE_USERNAME=;DATABASE_PASSWORD=
    
 где:
-   
+
+### Настройки для подключения к БД:
+
 HIBERNATE_DDL - настройка ddl
    
 DATABASE_HOST - адрес сервера (по умолчанию localhost)
@@ -646,8 +648,21 @@ DATABASE_USERNAME - твой логин
 DATABASE_PASSWORD - твой пароль
 
 
+
 ![](src/main/resources/static/images/profile_tutor/change_env_variables.png)
 
 4) Для запуска приложения в нужном профиле указать в VM options "-ea -Dspring.profiles.active=local" для профиля local или "-ea -Dspring.profiles.active=dev" для профиля dev
 ![](src/main/resources/static/images/profile_tutor/add_vm_options.png)
- 
+
+
+## Настройки в application.properties для отправки почты:
+
+email.host - адрес почтового сервера
+
+email.port - порт почтового сервера
+
+email.from_address - логин от учетной записи почты
+
+email.password - пароль от учетной записи почты
+
+email.sender_name - имя отправителя
