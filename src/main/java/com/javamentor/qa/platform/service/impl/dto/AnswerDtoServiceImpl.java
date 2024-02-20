@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class AnswerDtoServiceImpl implements AnswerDtoService {
+
     private final AnswerDtoDao answerDtoDao;
 
     public AnswerDtoServiceImpl(AnswerDtoDao answerDtoDao) {
@@ -28,4 +29,8 @@ public class AnswerDtoServiceImpl implements AnswerDtoService {
         return answerDtoDao.updateAnswer(answerDto, answerId, user);
     }
 
+    @Override
+    public Optional<AnswerDto> getAllAnswersDtoByQuestionId(Long questionId, Long userId) {
+        return answerDtoDao.getAllAnswersDtoByQuestionId(questionId,userId);
+    }
 }

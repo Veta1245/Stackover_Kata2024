@@ -7,9 +7,9 @@ import javassist.NotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
-
-
 public interface AnswerDtoDao {
+
     Optional<AnswerDto> getById(AnswerDto answerDto);
     Optional<AnswerDto> updateAnswer(AnswerDto answerDto, Long answerId, User user) throws NotFoundException, AccessDeniedException;
+    Optional<AnswerDto> getAllAnswersDtoByQuestionId(Long questionId, Long userid);
 }
