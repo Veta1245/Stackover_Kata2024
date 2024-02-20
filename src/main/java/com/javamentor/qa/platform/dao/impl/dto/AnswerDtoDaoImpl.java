@@ -30,7 +30,6 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
 
     }
 
-
     @Override
     public Optional<AnswerDto> getById(AnswerDto answerDto) {
 
@@ -87,6 +86,34 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
         answerDao.persist(answer);
 
         return this.getById(answerDto);
+    }
+    @Override
+    public Optional<AnswerDto> getAllAnswersDtoByQuestionId(Long questionId, Long userId) {
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("""
+    SELECT NEW com.javamentor.qa.platform.models.dto.AnswerDto(
+        a.id,
+        a.user.id ,
+        a.question.id,
+        a.htmlBody,
+        a.persistDateTime,
+        a.isHelpful,
+        a.dateAcceptTime,
+        COALESCE(SUM(CASE WHEN va.voteType = 'UP' THEN 1 WHEN va.voteType = 'DOWN' THEN -1 ELSE 0 END), 0),
+        COALESCE(SUM(r.count), 0),
+        a.user.imageLink,
+        a.user.nickname,
+        COUNT(va.id),
+        (SELECT va.voteType FROM VoteAnswer va WHERE va.answer.id = a.id AND va.user.id = :userId)
+    )
+    FROM Answer a
+    LEFT JOIN a.voteAnswers va
+    LEFT JOIN Reputation r ON r.author.id = a.user.id
+    WHERE a.question.id = :questionId AND a.isDeleted = false
+    GROUP BY a.id, a.user.id, a.question.id, a.htmlBody, a.persistDateTime, a.isHelpful,
+             a.dateAcceptTime, a.user.imageLink, a.user.nickname
+    """, AnswerDto.class)
+                .setParameter("questionId", questionId)
+                .setParameter("userId", userId));
     }
 
 }

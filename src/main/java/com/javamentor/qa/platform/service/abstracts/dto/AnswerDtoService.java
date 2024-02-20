@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface AnswerDtoService {
     Optional<AnswerDto> getById(AnswerDto answerDto);
     Optional<AnswerDto> updateAnswer(AnswerDto answerDto, Long answerId, User user) throws AccessDeniedException, NotFoundException;
+    Optional <AnswerDto> getAllAnswersDtoByQuestionId(Long questionId, Long userId);
 }
