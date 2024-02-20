@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задать вопрос - Stack Overflow</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div id="content" class="snippet-hidden">
+        <div id="mainbar-full" class="user-show-new">
+            <div class="ps-relative mb16">
+                <div class="d-flex ai-center fw-wrap gs16">
+
+                    <div class="col-md-7 border rounded">
+                        <h1 class="mt-5 mb-4">Задать вопрос на Stack Overflow</h1>
+
+                        <form action="https://ru.stackoverflow.com/questions/ask" method="post">
+                            <div class="form-group">
+                                <label for="question-title">Заголовок вопроса:</label>
+                                <input type="text" class="form-control" id="question-title" name="question-title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="question-body">Текст вопроса:</label>
+                                <textarea class="form-control" id="question-body" name="question-body" rows="8" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Задать вопрос</button>
+                        </form>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4 bg-light border rounded ">
+                        <h3 class="mt-5">Черновик вопроса</h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/sidebar.js"></script>
+<script type="text/javascript" src="/js/header.js"></script>
+<script type="text/javascript" src="/js/footer.js"></script>
+</body>
+</html>
