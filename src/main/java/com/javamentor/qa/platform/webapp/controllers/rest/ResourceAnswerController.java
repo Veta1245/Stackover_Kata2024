@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,13 +50,8 @@ public class ResourceAnswerController {
     @PutMapping(value = "/{answerId}/body")
     public ResponseEntity<AnswerDto> updateAnswerBody(@PathVariable("answerId") Long answerId, @RequestBody AnswerDto answerDto) {
 
-        /*
-         * TODO: Исправить когда будет реализовано Security
-         */
-        log.warn("Uses template user from DB, NEED implement getting user from Security");
-        User user = userService.getById(answerDto.getUserId()).orElseThrow(() ->
-                new EntityNotFoundException("User not found with id: " + answerDto.getUserId()));
-
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("The user has been successfully received");
 
         try {
             return  answerDtoService.updateAnswer(answerDto, answerId, user)
