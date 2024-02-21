@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("classpath:application-test.properties")
 @AutoConfigureMockMvc
 @DBRider
-@DBUnit(caseSensitiveTableNames = true)
+@DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "public")
 public abstract class JmApplicationTests {
     @Autowired
     private MockMvc mockMvc;
