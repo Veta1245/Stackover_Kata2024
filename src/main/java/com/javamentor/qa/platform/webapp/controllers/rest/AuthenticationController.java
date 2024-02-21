@@ -47,9 +47,9 @@ public class AuthenticationController {
                 .orElseGet(() ->{
                     log.info("Аутентификация не удалась, возвращается пустой объект TokenResponseDTO и статус BAD_REQUEST");
                     return new ResponseEntity<>(new TokenResponseDTO(), HttpStatus.BAD_REQUEST);
-        });
-
+                });
     }
+
 
     @PostMapping("/logout")
     @Operation(summary = "выход пользователя из системы")

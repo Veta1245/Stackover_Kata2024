@@ -36,7 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String jwt =  getTokenFromRequest(request);
+        String jwt = getTokenFromRequest(request);
         if (jwt != null) {
             try {
                 String username = jwtUtil.getUsernameFromToken(jwt);
@@ -45,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 log.debug(e.getMessage());
             }
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     /**
@@ -54,8 +54,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
      * @return токен из HTTP запроса
      */
     private String getTokenFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+        String bearerToken  = request.getHeader("Authorization");
+        if (bearerToken  != null && bearerToken .startsWith("Bearer ")) {
             return bearerToken.substring(7);
             //удаляем "Bearer " из строки
         }
@@ -69,7 +69,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
      */
     private Authentication getAuthentication(String username) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(),
+        return new UsernamePasswordAuthenticationToken(userDetails,
                 null, userDetails.getAuthorities());
     }
 }

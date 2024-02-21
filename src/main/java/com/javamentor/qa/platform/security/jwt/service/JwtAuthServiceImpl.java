@@ -42,10 +42,10 @@ public class JwtAuthServiceImpl implements JwtAuthService{
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequestDTO.getLogin());
         return Optional.of(new TokenResponseDTO(
                 userDetails.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .findFirst()
-                .orElse(null),
+                        .stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .findFirst()
+                        .orElse(null),
                 jwtUtil.generateToken(userDetails)));
     }
 }
