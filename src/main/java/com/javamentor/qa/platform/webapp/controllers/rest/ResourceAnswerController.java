@@ -115,13 +115,9 @@ public class ResourceAnswerController {
     })
     public ResponseEntity<Long> upVoteAnswer(
             @PathVariable("answerId") Long answerId,
-            @RequestParam("userId") Long userId) {
+            @AuthenticationPrincipal User user) {
         try {
-            //TODO: взять User из Security
-            User user = userService.getById(userId).orElseThrow(() ->
-                    new EntityNotFoundException("User not found with id: " + userId));
-
-
+            
             Long votesCount = voteAnswerService.voteUpToAnswer(answerId, user);
             log.info("Отправка положительного голоса прошла успешно. ID вопроса: {}", answerId);
             return new ResponseEntity<>(votesCount, HttpStatus.OK);
