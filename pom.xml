@@ -35,6 +35,12 @@
             <version>5.4.18.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+
         <!-- hot swapping, enable live reload -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -101,7 +107,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.2.32</version>
         </dependency>
-        <!-- /Swagger -->
+        <!-- /S wagger -->
 
         <dependency>
             <groupId>jakarta.validation</groupId>
@@ -118,7 +124,7 @@
         <dependency>
             <groupId>com.github.database-rider</groupId>
             <artifactId>rider-junit5</artifactId>
-            <version>1.13.1</version>
+            <version>1.41.1</version>
         </dependency>
 
         <dependency>
