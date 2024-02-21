@@ -1,11 +1,8 @@
 package com.javamentor.qa.platform.webapp.controllers.rest;
 
 import com.javamentor.qa.platform.models.dto.AnswerDto;
-import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.user.User;
-import com.javamentor.qa.platform.security.UserDetailsServiceImpl;
 import com.javamentor.qa.platform.service.abstracts.dto.AnswerDtoService;
-import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.UserService;
 import com.javamentor.qa.platform.service.abstracts.model.VoteAnswerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,8 +17,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.AccessDeniedException;
@@ -33,11 +35,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @RestController
 public class ResourceAnswerController {
-
     private final VoteAnswerService voteAnswerService;
     private final UserService userService;
-    private final AnswerService answerService;
-    private final UserDetailsServiceImpl userDetailsService;
     private final AnswerDtoService answerDtoService;
 
     @Operation(summary = "Получение вопроса по id")
@@ -48,8 +47,7 @@ public class ResourceAnswerController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")})
     @PutMapping(value = "/{answerId}/body")
-    public ResponseEntity<AnswerDto> updateAnswerBody(@PathVariable("answerId") Long answerId,
-            @RequestBody AnswerDto answerDto) {
+    public ResponseEntity<AnswerDto> updateAnswerBody(@PathVariable("answerId") Long answerId, @RequestBody AnswerDto answerDto) {
 
         /*
          * TODO: Исправить когда будет реализовано Security
@@ -58,11 +56,11 @@ public class ResourceAnswerController {
         User user = userService.getById(answerDto.getUserId()).orElseThrow(() ->
                 new EntityNotFoundException("User not found with id: " + answerDto.getUserId()));
 
+
         try {
-            return answerDtoService.updateAnswer(answerDto, answerId, user)
+            return  answerDtoService.updateAnswer(answerDto, answerId, user)
                     .map(answerDtoMap -> {
-                        log.info("Answer DTO found with questionId and userId: {}, {}",
-                                answerDtoMap.getQuestionId(), answerDtoMap.getUserId());
+                        log.info("Answer DTO found with questionId and userId: {}, {}", answerDtoMap.getQuestionId(), answerDtoMap.getUserId());
                         return new ResponseEntity<>(answerDtoMap, HttpStatus.OK);
                     })
                     .orElseGet(() -> {
@@ -87,7 +85,7 @@ public class ResourceAnswerController {
     })
     @PostMapping("/{answerId}/downVote")
     public ResponseEntity<Long> downVoteAnswer(@PathVariable("answerId") Long answerId,
-            @RequestParam("userId") Long userId) {
+                                               @RequestParam("userId") Long userId) {
         try {
             //TODO: Взять юзера из секьюрити
             User user = userService.getById(userId).orElseThrow(() ->
@@ -96,9 +94,7 @@ public class ResourceAnswerController {
             log.info("Успешно отправлен отрицательный голос на ответ с id {}", answerId);
             return new ResponseEntity<>(votesCount, HttpStatus.OK);
         } catch (Exception e) {
-            log.error(
-                    "При попытке отправить отрицательный голос на ответ с id {}, произошла ошибка",
-                    answerId, e);
+            log.error("При попытке отправить отрицательный голос на ответ с id {}, произошла ошибка", answerId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 
@@ -124,6 +120,7 @@ public class ResourceAnswerController {
             //TODO: взять User из Security
             User user = userService.getById(userId).orElseThrow(() ->
                     new EntityNotFoundException("User not found with id: " + userId));
+
 
             Long votesCount = voteAnswerService.voteUpToAnswer(answerId, user);
             log.info("Отправка положительного голоса прошла успешно. ID вопроса: {}", answerId);
