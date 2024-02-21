@@ -81,19 +81,18 @@ public class ResourceAnswerController {
     })
     @PostMapping("/{answerId}/downVote")
     public ResponseEntity<Long> downVoteAnswer(@PathVariable("answerId") Long answerId,
-                                               @RequestParam("userId") Long userId) {
+                                               @AuthenticationPrincipal User user) {
         try {
-            //TODO: Взять юзера из секьюрити
-            User user = userService.getById(userId).orElseThrow(() ->
-                    new EntityNotFoundException("User not found with id: " + userId));
+            if (user == null) {
+                log.info("Пользователь не найден");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             Long votesCount = voteAnswerService.downVoteAnswer(answerId, user);
             log.info("Успешно отправлен отрицательный голос на ответ с id {}", answerId);
             return new ResponseEntity<>(votesCount, HttpStatus.OK);
         } catch (Exception e) {
             log.error("При попытке отправить отрицательный голос на ответ с id {}, произошла ошибка", answerId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-
         }
     }
 
