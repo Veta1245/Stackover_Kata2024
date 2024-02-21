@@ -6,7 +6,6 @@ import com.github.database.rider.junit5.api.DBRider;
 import com.javamentor.qa.platform.models.dto.AuthenticationRequestDTO;
 import com.javamentor.qa.platform.models.dto.TokenResponseDTO;
 import com.javamentor.qa.platform.webapp.configs.JmApplication;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("classpath:application-test.properties")
 @AutoConfigureMockMvc
 @DBRider
-@DBUnit (caseSensitiveTableNames = true)
+@DBUnit(caseSensitiveTableNames = true)
 public abstract class JmApplicationTests {
     @Autowired
     private MockMvc mockMvc;
@@ -42,8 +40,8 @@ public abstract class JmApplicationTests {
     protected String obtainAccessToken(String login, String password) throws Exception {
         return objectMapper
                 .readValue(mockMvc.perform(post("/api/auth/token")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(new AuthenticationRequestDTO(login, password))))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new AuthenticationRequestDTO(login, password))))
                         .andExpect(status().isOk())
                         .andReturn()
                         .getResponse()
