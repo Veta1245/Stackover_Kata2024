@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
                 // ограничиваем доступ api/user/** - разрешен только USER
-                .antMatchers("api/user/**").hasRole("USER")
+                .antMatchers("/api/user/**").hasRole("USER")
                 // выход из аккаунта доступен только аутентифицированным пользователям
                 .antMatchers("/api/auth/logout").authenticated()
                 // всем остальным разрешаем доступ
