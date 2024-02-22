@@ -32,10 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "public")
 public abstract class JmApplicationTests {
     @Autowired
-    private MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
 
     protected String obtainAccessToken(String login, String password) throws Exception {
         return objectMapper
