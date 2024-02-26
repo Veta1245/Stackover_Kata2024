@@ -1,0 +1,22 @@
+user_entity:
+  - id: 101
+    email: "admin@mail.com"
+    password: "$2y$10$2RVxB7y4MwEy6MrHwjKA/..tzHzpOj3LuLmZZZbymgUxj.74AAb.a" #pass
+    full_name: "Admin1"
+    is_enabled: true
+    role_id: 1
+    last_redaction_date: "[now]"
+  - id: 102
+    email: "user1@mail.com"
+    password: "$2y$10$2RVxB7y4MwEy6MrHwjKA/..tzHzpOj3LuLmZZZbymgUxj.74AAb.a" #pass
+    full_name: "FullName1"
+    is_enabled: true
+    role_id: 2
+    last_redaction_date: "[now]"
+  - id: 103
+    email: "user2@mail.com"
+    password: "$2y$10$2RVxB7y4MwEy6MrHwjKA/..tzHzpOj3LuLmZZZbymgUxj.74AAb.a" #pass
+    full_name: "FullName2"
+    is_enabled: true
+    role_id: 2
+    last_redaction_date: "[now]"
