@@ -1,0 +1,49 @@
+answer:
+  - id: 101
+    question_id: 101
+    html_body: "answer 101 
+                  for
+                  question
+                  101"
+    user_id: 101
+    persist_date: "[now]"
+    update_date: "[now]"
+    is_helpful: false
+    is_deleted: false
+    is_deleted_by_moderator: false
+  - id: 102
+    question_id: 101
+    html_body: "answer 102 
+                  for
+                  question
+                  101"
+    user_id: 101
+    persist_date: "[now]"
+    update_date: "[now]"
+    is_helpful: false
+    is_deleted: false
+    is_deleted_by_moderator: false
+  - id: 103
+    question_id: 102
+    html_body: "answer 103 
+                  for
+                  question
+                  102"
+    user_id: 101
+    persist_date: "[now]"
+    update_date: "[now]"
+    is_helpful: false
+    is_deleted: false
+    is_deleted_by_moderator: false
+  - id: 104
+    question_id: 102
+    html_body: "answer 104 
+                  for
+                  question
+                  102"
+    user_id: 102
+    persist_date: "[now]"
+    update_date: "[now]"
+    is_helpful: false
+    is_deleted: false
+    is_deleted_by_moderator: false
