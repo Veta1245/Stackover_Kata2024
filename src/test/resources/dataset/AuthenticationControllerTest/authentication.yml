@@ -1,0 +1,14 @@
+role:
+  - id: 100
+    name: "ROLE_USER"
+
+user_entity:
+  - id: 100
+    email: "user@gmail.com"
+    password: "$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8."
+    full_name: "User User"
+    is_enabled: true
+    is_deleted: false
+    city: "test city"
+    last_redaction_date: "2024-02-25 0:50:11.524439"
+    role_id: 100
