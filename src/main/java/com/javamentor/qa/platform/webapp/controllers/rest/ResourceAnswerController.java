@@ -1,9 +1,10 @@
 package com.javamentor.qa.platform.webapp.controllers.rest;
 
 import com.javamentor.qa.platform.models.dto.AnswerDto;
+import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.user.User;
 import com.javamentor.qa.platform.service.abstracts.dto.AnswerDtoService;
-import com.javamentor.qa.platform.service.abstracts.model.UserService;
+import com.javamentor.qa.platform.service.abstracts.model.AnswerService;
 import com.javamentor.qa.platform.service.abstracts.model.VoteAnswerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,15 +19,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityNotFoundException;
+
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
@@ -37,8 +38,35 @@ import java.util.Optional;
 @RestController
 public class ResourceAnswerController {
     private final VoteAnswerService voteAnswerService;
-    private final UserService userService;
+    private final AnswerService answerService;
     private final AnswerDtoService answerDtoService;
+
+
+    //    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @Operation(summary = "Получение и пометка ответа на удаление по Id",
+            description = "Вытаскивает из базы ответ присваивает  полям is_deleted и is_deleted_by_moderator значения true и сохраняет"
+    )
+    @DeleteMapping(value = "/{answerId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "BAD_REQUEST"),
+            @ApiResponse(responseCode = "404", description = "Answer not found"),
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "301", description = "FORBIDDEN"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")})
+    public ResponseEntity<String> markAnswerToDelete(@PathVariable("answerId") Long answerId) {
+        try {
+            Answer answer = answerService.getAndMarkForDeleteAnswer(answerId);
+            if (answer != null) {
+                return new ResponseEntity<>("Answer marked for deletion successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Answer with id " + answerId + " not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error occurred while marking answer for deletion", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 
     @Operation(summary = "Получение вопроса по id")
     @ApiResponses(value = {
@@ -54,7 +82,7 @@ public class ResourceAnswerController {
         log.info("The user has been successfully received");
 
         try {
-            return  answerDtoService.updateAnswer(answerDto, answerId, user)
+            return answerDtoService.updateAnswer(answerDto, answerId, user)
                     .map(answerDtoMap -> {
                         log.info("Answer DTO found with questionId and userId: {}, {}", answerDtoMap.getQuestionId(), answerDtoMap.getUserId());
                         return new ResponseEntity<>(answerDtoMap, HttpStatus.OK);
@@ -112,7 +140,7 @@ public class ResourceAnswerController {
             @PathVariable("answerId") Long answerId,
             @AuthenticationPrincipal User user) {
         try {
-            
+
             Long votesCount = voteAnswerService.voteUpToAnswer(answerId, user);
             log.info("Отправка положительного голоса прошла успешно. ID вопроса: {}", answerId);
             return new ResponseEntity<>(votesCount, HttpStatus.OK);
