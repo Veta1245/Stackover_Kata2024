@@ -8,4 +8,8 @@ public interface AnswerService extends ReadWriteService<Answer, Long> {
     Answer getByAnswerIdWithoutUser(Long answerId, User user);
 
     Answer getAnswerById(Long answerId, User user);
+
+    Answer getAndMarkForDeleteAnswer(Long Id);
+
+
 }
