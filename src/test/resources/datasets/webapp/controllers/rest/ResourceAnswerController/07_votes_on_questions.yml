@@ -1,0 +1,9 @@
+votes_on_questions:
+  - id: 101
+    user_id: 101
+    question_id: 101
+    persist_date: "[now]"
+  - id: 103
+    user_id: 102
+    question_id: 102
+    persist_date: "[now]"

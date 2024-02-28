@@ -1,0 +1,31 @@
+question:
+  - id: 101
+    title: "Question 101"
+    description: "Description
+                  for
+                  question
+                  101"
+    persist_date: "[now]"
+    user_id: 101
+    last_redaction_date: "[now]"
+    is_deleted: false
+  - id: 102
+    title: "Question 102"
+    description: "Description
+                  for
+                  question
+                  102"
+    persist_date: "[now]"
+    user_id: 101
+    last_redaction_date: "[now]"
+    is_deleted: false
+  - id: 103
+    title: "Question 103"
+    description: "Description
+                  for
+                  question
+                  103"
+    persist_date: "[now]"
+    user_id: 102
+    last_redaction_date: "[now]"
+    is_deleted: false

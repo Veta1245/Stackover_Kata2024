@@ -75,6 +75,14 @@ public class AnswerDtoDaoImpl implements AnswerDtoDao {
             throw new NotFoundException("Answer not found");
         }
 
+        if(answerOptional.get().getIsDeleted()) {
+            throw new AccessDeniedException("Answer is deleted");
+        }
+
+        if(answerDto.getBody().isEmpty()) {
+            throw new NullPointerException("Body is empty");
+        }
+
         if (!answerOptional.get().getUser().getEmail().equals(user.getUsername())) {
             throw new AccessDeniedException("Access denied");
         }

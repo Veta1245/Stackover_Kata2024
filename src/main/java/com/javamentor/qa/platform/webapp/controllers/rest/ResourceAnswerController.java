@@ -91,8 +91,12 @@ public class ResourceAnswerController {
                         log.warn("Answer DTO not found for ID: {}", answerDto.getId());
                         return new ResponseEntity<>(new AnswerDto(), HttpStatus.NOT_FOUND);
                     });
-        } catch (AccessDeniedException | NotFoundException e) {
+        } catch (NotFoundException e ) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (AccessDeniedException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
 
