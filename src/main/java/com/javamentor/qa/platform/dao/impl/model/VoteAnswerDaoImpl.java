@@ -39,11 +39,11 @@ public class VoteAnswerDaoImpl extends ReadWriteDaoImpl<VoteAnswer, Long> implem
     }
 
     @Override
-    public Optional<VoteAnswer> getVoteAnswerByUserAndAnswer(Long answerId, User user) {
+    public Optional<VoteAnswer> getVoteAnswerByUserAndAnswer(Long answerId, Long userId) {
         return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery(
                         "SELECT voan FROM VoteAnswer voan WHERE user.id = :userId AND answer.id =:answerId",
                         VoteAnswer.class)
-                .setParameter("userId", user.getId())
+                .setParameter("userId", userId)
                 .setParameter("answerId", answerId));
     }
 

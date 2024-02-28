@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long> implements ReputationService {
@@ -53,12 +54,17 @@ public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long
     }
 
     @Override
+    public Optional<Reputation> getReputationByAnswerAndUser(Long answerId, Long userId) {
+        return reputationDao.getReputationByAnswerAndUser(answerId, userId);
+    }
+
+    @Override
     public Reputation getDownReputationByAnswerAndUser(Long answerId, User user) {
         Answer answer = answerService.getByAnswerIdWithoutUser(answerId,user);
         /**
          * Репутация(ответ и отправитель), если null-добавить, не null-обновить
          */
-        Reputation reputation = reputationDao.getReputationByAnswerAndUser(answerId,user).orElse(null);
+        Reputation reputation = reputationDao.getReputationByAnswerAndUser(answerId, user.getId()).orElse(null);
 
         if (reputation == null) {
             reputation = new Reputation();
