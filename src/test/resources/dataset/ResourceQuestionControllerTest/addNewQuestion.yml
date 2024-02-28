@@ -1,0 +1,29 @@
+role:
+  - id: 100
+    name: "ROLE_USER"
+  - id: 101
+    name: "ROLE_ADMIN"
+
+user_entity:
+  - id: 100
+    email: "userTest1@yandex.ru"
+    full_name: "TestName"
+    persist_date: "[now]"
+    is_enabled: true
+    is_deleted: false
+    city: "TestCity"
+    last_redaction_date: "[now]"
+    password: "$2a$12$Ko0y/EPN8/AizT7SWOHp5OAE0Lf.dX.kWGajWatqC0HQ6pXwDwDOK"
+    role_id: 100
+
+
+tag:
+  - id: 100
+    name: "TestTag1"
+    description: "descriptionTest1"
+    persist_date: "[now]"
+
+  - id: 101
+    name: "TestTag2"
+    description: "descriptionTest2"
+    persist_date: "[now]"

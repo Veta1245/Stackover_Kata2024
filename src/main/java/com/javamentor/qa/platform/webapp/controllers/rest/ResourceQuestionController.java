@@ -40,10 +40,20 @@ public class ResourceQuestionController {
                                                       @AuthenticationPrincipal User user) {
         log.info("Запрос на создние нового вопроса");
 
+        if (questionCreateDto.getTags().isEmpty() ||
+                questionCreateDto.getTitle().isBlank() ||
+                questionCreateDto.getDescription().isBlank()) {
+            log.info("Неверно выполнен запрос");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        log.info("Запрос успешно выполнен");
-        return new ResponseEntity<>(questionConverter.questionToQuestionDto(questionService.addNewQuestion(questionCreateDto,
-                tagService.addTag(questionCreateDto), user)), HttpStatus.CREATED);
+        log.info("Запрос на создание вопроса выполнен");
+        return new ResponseEntity<>(questionConverter.questionToQuestionDto(
+                questionService.addNewQuestion(
+                        questionCreateDto,
+                        tagService.addTag(questionCreateDto),
+                        user)),
+                HttpStatus.CREATED);
     }
 
 }
