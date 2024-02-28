@@ -111,13 +111,18 @@ public class ResourceAnswerController {
     public ResponseEntity<Long> downVoteAnswer(@PathVariable("answerId") Long answerId,
                                                @AuthenticationPrincipal User user) {
         try {
+            Optional<Answer> answer = Optional.ofNullable(answerService.getByAnswerIdWithoutUser(answerId, user));
             if (user == null) {
                 log.info("Пользователь не найден");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else if (answer.isEmpty()) {
+                log.info("Ответ не найден");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                Long votesCount = voteAnswerService.downVoteAnswer(answerId, user);
+                log.info("Успешно отправлен отрицательный голос на ответ с id {}", answerId);
+                return new ResponseEntity<>(votesCount, HttpStatus.OK);
             }
-            Long votesCount = voteAnswerService.downVoteAnswer(answerId, user);
-            log.info("Успешно отправлен отрицательный голос на ответ с id {}", answerId);
-            return new ResponseEntity<>(votesCount, HttpStatus.OK);
         } catch (Exception e) {
             log.error("При попытке отправить отрицательный голос на ответ с id {}, произошла ошибка", answerId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

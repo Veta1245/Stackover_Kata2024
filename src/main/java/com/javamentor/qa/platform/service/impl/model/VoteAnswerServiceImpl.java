@@ -62,7 +62,7 @@ public class VoteAnswerServiceImpl extends ReadWriteServiceImpl<VoteAnswer, Long
          * голосовал ли юзер за ответ(кто, за какой ответ, лайк(UP) или дизлайк(DOWN)),
          * если голосовал-обновить оценку, не голосовал-сохранить оценку
          */
-        VoteAnswer voteAnswer = voteAnswerDao.getVoteAnswerByUserAndAnswer(answerId, user).orElse(null);
+        VoteAnswer voteAnswer = voteAnswerDao.getVoteAnswerByUserAndAnswer(answerId, user.getId()).orElse(null);
 
         if (voteAnswer == null) {
             voteAnswer = new VoteAnswer();

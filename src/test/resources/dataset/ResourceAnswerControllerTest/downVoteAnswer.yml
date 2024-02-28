@@ -1,0 +1,97 @@
+role:
+  - id: 100
+    name: "ROLE_USER"
+
+user_entity:
+  - id: 100
+    email: "user1@gmail.com"
+    password: "$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8."
+    full_name: "User User1"
+    is_enabled: true
+    is_deleted: false
+    city: "test1 city"
+    last_redaction_date: "2024-02-26 18:06:11.524439"
+    role_id: 100
+  - id: 101
+    email: "user2@gmail.com"
+    password: "$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8."
+    full_name: "User User2"
+    is_enabled: true
+    is_deleted: false
+    city: "test2 city"
+    last_redaction_date: "2024-02-26 18:06:11.524439"
+    role_id: 100
+
+question:
+  - id: 100
+    title: "Question title"
+    description: "Content question"
+    persist_date: "2024-02-26 18:06:11.524439"
+    user_id: 100
+    last_redaction_date: "2024-02-26 18:06:11.524439"
+    is_deleted: false
+  - id: 101
+    title: "Question title"
+    description: "Content question"
+    persist_date: "2024-02-26 18:06:11.524439"
+    user_id: 101
+    last_redaction_date: "2024-02-26 18:06:11.524439"
+    is_deleted: false
+
+answer:
+  - id: 100
+    persist_date: "2024-02-26 18:06:11.524439"
+    update_date: "2024-02-26 18:06:11.524439"
+    question_id: 100
+    user_id: 100
+    html_body: "answer_1"
+    is_helpful: false
+    is_deleted: false
+    is_deleted_by_moderator: false
+    date_accept_time: "2024-02-26 18:06:11.524439"
+
+  - id: 101
+    persist_date: "2024-02-26 18:06:11.524439"
+    update_date: "2024-02-26 18:06:11.524439"
+    question_id: 101
+    user_id: 101
+    html_body: "answer_2"
+    is_helpful: false
+    is_deleted: false
+    is_deleted_by_moderator: false
+    date_accept_time: "2024-02-26 18:06:11.524439"
+
+votes_on_answers:
+  - id: 100
+    user_id: 101
+    answer_id: 100
+    persist_date: "2024-02-26 18:06:11.524439"
+    vote_type: UP
+  - id: 101
+    user_id: 100
+    answer_id: 101
+    persist_date: "2024-02-26 18:06:11.524439"
+    vote_type: DOWN
+
+reputation:
+  - id: 100
+    persist_date: "2024-02-26 18:06:11.524439"
+    author_id: 100
+    sender_id: 101
+    count: 10
+    type: 2
+    answer_id: 100
+  - id: 101
+    persist_date: "2024-02-26 18:06:11.524439"
+    author_id: 101
+    sender_id: 100
+    count: 10
+    type: 2
+    answer_id: 101
+  - id: 102
+    persist_date: "2024-02-26 18:06:11.524439"
+    author_id: 100
+    sender_id: 100
+    count: 10
+    type: 2
+    answer_id: 100

@@ -11,7 +11,7 @@ public interface VoteAnswerDao extends ReadWriteDao<VoteAnswer, Long> {
     Optional<VoteAnswer> getVoteAnswerByAnswerIdAndUser(Long answerId, User user);
 
     Long getAllTheVotesForThisAnswerUp(Answer answerUp);
-    Optional<VoteAnswer> getVoteAnswerByUserAndAnswer(Long answerId, User user);
+    Optional<VoteAnswer> getVoteAnswerByUserAndAnswer(Long answerId, Long userId);
 
     Long downVoteCount(Answer answer);
 }

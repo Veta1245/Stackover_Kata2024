@@ -29,11 +29,11 @@ public class ReputationDaoImpl extends ReadWriteDaoImpl<Reputation, Long> implem
                 .setParameter("senderId", user.getId()));
     }
     @Override
-    public Optional<Reputation> getReputationByAnswerAndUser(Long answerId, User user) {
+    public Optional<Reputation> getReputationByAnswerAndUser(Long answerId, Long userId) {
         return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("""
         SELECT rp FROM Reputation rp WHERE rp.answer.id = :answerId AND rp.sender.id = :userId 
         """, Reputation.class)
                 .setParameter("answerId", answerId)
-                .setParameter("userId", user.getId()));
+                .setParameter("userId", userId));
     }
 }
