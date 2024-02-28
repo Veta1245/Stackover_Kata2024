@@ -1,0 +1,25 @@
+reputation:
+  - id: 101
+    author_id: 101
+    sender_id: 102
+    count: 5
+    type: 0
+    question_id: 101
+    answer_id: 101
+    persist_date: "[now]"
+  - id: 102
+    author_id: 101
+    sender_id: 103
+    count: 3
+    type: 0
+    question_id: 102
+    answer_id: 102
+    persist_date: "[now]"
+  - id: 103
+    author_id: 102
+    sender_id: 101
+    count: 7
+    type: 0
+    question_id: 101
+    answer_id: 101
+    persist_date: "[now]"
