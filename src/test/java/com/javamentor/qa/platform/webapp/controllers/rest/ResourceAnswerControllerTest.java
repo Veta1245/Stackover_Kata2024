@@ -2,15 +2,18 @@ package com.javamentor.qa.platform.webapp.controllers.rest;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.javamentor.qa.platform.JmApplicationTests;
+import com.javamentor.qa.platform.models.entity.question.answer.Answer;
 import com.javamentor.qa.platform.models.entity.question.answer.VoteAnswer;
 import com.javamentor.qa.platform.models.entity.question.answer.VoteType;
 import com.javamentor.qa.platform.models.entity.user.reputation.Reputation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 
 import javax.persistence.EntityManager;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,6 +23,43 @@ class ResourceAnswerControllerTest extends JmApplicationTests {
     private EntityManager entityManager;
 
     @Test
+    @DataSet(value = "dataset/ResourceAnswerControllerTest/responsesToDeletion.yml",
+            cleanBefore = true, cleanAfter = true)
+    void checkingStatus() throws Exception {
+        String token = "Bearer " + obtainAccessToken("user1@gmail.com", "admin");
+        mockMvc.perform(delete("/api/user/question/{questionId}/answer/{answerId}", 100L, 100L)
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DataSet(value = "dataset/ResourceAnswerControllerTest/responsesToDeletion.yml",
+            cleanBefore = true, cleanAfter = true)
+    void checkingDateCompliance() throws Exception {
+        String token = "Bearer " + obtainAccessToken("user1@gmail.com", "admin");
+        mockMvc.perform(delete("/api/user/question/{questionId}/answer/{answerId}", 100L, 100L)
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        Answer answer = entityManager.createQuery("SELECT s FROM Answer s where s.id = 100 and s.question.id = 100", Answer.class)
+                .getSingleResult();
+        Assertions.assertTrue(answer.getIsDeleted());
+        Assertions.assertTrue(answer.getIsDeletedByModerator());
+    }
+
+
+    @Test
+    @DataSet(value = "dataset/ResourceAnswerControllerTest/responsesToDeletion.yml",
+            cleanBefore = true, cleanAfter = true)
+    void aShotIntoTheVoid() throws Exception {
+        String token = "Bearer " + obtainAccessToken("user1@gmail.com", "admin");
+        mockMvc.perform(delete("/api/user/question/{questionId}/answer/{answerId}", 200L, 200L)
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+    }
     @DataSet(value = "dataset/ResourceAnswerControllerTest/downVoteAnswer.yml", cleanBefore = true, cleanAfter = true)
     void successfulDownVoteForAnswer() throws Exception {
         VoteAnswer voteAnswerBefore = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.id = 110", VoteAnswer.class)
