@@ -1,0 +1,36 @@
+role:
+  - id: 100
+    name: "ROLE_USER"
+
+user_entity:
+  - id: 100
+    email: "user1@gmail.com"
+    password: "$2a$12$RNYsXEVvHpkM.gHvKQ797O5xaMDwAdBuoQmpW7QjOoBvZrHxatdK."
+    full_name: "User User1"
+    is_enabled: true
+    is_deleted: false
+    city: "test1 city"
+    last_redaction_date: "2024-02-26 18:06:11.524439"
+    role_id: 100
+
+
+question:
+  - id: 100
+    title: "Question title"
+    description: "Content question"
+    persist_date: "2024-02-26 18:06:11.524439"
+    user_id: 100
+    last_redaction_date: "2024-02-26 18:06:11.524439"
+    is_deleted: false
+
+answer:
+  - id: 100
+    persist_date: "2024-02-26 18:06:11.524439"
+    update_date: "2024-02-26 18:06:11.524439"
+    question_id: 100
+    user_id: 100
+    html_body: "answer_1"
+    is_helpful: false
+    is_deleted: false
+    is_deleted_by_moderator: false
+    date_accept_time: "2024-02-26 18:06:11.524439"
