@@ -7,10 +7,39 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 class ResourceTagControllerTest extends JmApplicationTests {
+
+    @Test
+    @DataSet(value = "dataset/ResourceTagControllerTest/addTagToTracked.yml", cleanBefore = true, cleanAfter = true)
+    void sucessfulTestAddTagToTracked() throws Exception {
+        mockMvc.perform(post("/api/user/tag/{tagId}/tracked", 101L)
+                .header("Authorization", "Bearer " + obtainAccessToken("user2@gmail.com", "123456")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(101L))
+                .andExpect(jsonPath("$.name").value("tag_2"))
+                .andExpect(jsonPath("$.description").value("test tag_2"));
+    }
+
+    @Test
+    @DataSet(value = "dataset/ResourceTagControllerTest/addTagToTracked.yml", cleanBefore = true, cleanAfter = true)
+    void tryingToAddAnAlreadyTrackedTag() throws Exception {
+        mockMvc.perform(post("/api/user/tag/{tagId}/tracked", 100L)
+                .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @DataSet(value = "dataset/ResourceTagControllerTest/addTagToTracked.yml", cleanBefore = true, cleanAfter = true)
+    void checkingWhetherANonExistentTagIsAddedToTheTrackedOnes() throws Exception {
+        mockMvc.perform(post("/api/user/tag/{tagId}/tracked", 105)
+                .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     @DataSet(value = {"dataset/ResourceTagControllerIT/user.yml",

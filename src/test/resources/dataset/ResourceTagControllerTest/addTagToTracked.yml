@@ -1,0 +1,43 @@
+role:
+  - id: 100
+    name: "ROLE_USER"
+
+user_entity:
+  - id: 100
+    email: "user1@gmail.com"
+    password: "$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8."
+    full_name: "User User1"
+    is_enabled: true
+    is_deleted: false
+    city: "test1 city"
+    last_redaction_date: "2024-02-29 16:16:11.524439"
+    role_id: 100
+  - id: 101
+    email: "user2@gmail.com"
+    password: "$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8."
+    full_name: "User User2"
+    is_enabled: true
+    is_deleted: false
+    city: "test2 city"
+    last_redaction_date: "2024-02-29 16:16:11.524439"
+    role_id: 100
+
+tag:
+  - id: 100
+    name: "tag_1"
+    description: "test tag_1"
+    persist_date: "2024-02-29 16:16:11.524439"
+  - id: 101
+    name: "tag_2"
+    description: "test tag_2"
+    persist_date: "2024-02-29 16:16:11.524439"
+  - id: 102
+    name: "tag_3"
+    description: "test tag_3"
+    persist_date: "2024-02-29 16:16:11.524439"
+
+tag_tracked:
+  - id: 100
+    tracked_tag_id: 100
+    user_id: 100
+    persist_date: "2024-02-29 16:16:11.524439"
