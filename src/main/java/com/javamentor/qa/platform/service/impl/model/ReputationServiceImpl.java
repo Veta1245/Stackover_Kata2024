@@ -33,7 +33,7 @@ public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long
     public Reputation addReputation(Long answerId, User user) {
         Answer answer = answerService.getAnswerById(answerId, user);
 
-        Reputation reputation = reputationDao.getReputationByAnswerIdAndUser(answerId, user).orElse(null);
+        Reputation reputation = reputationDao.getReputationByAnswerIdAndUser(answerId, user.getId()).orElse(null);
 
         if (reputation == null) {
 
@@ -43,12 +43,17 @@ public class ReputationServiceImpl extends ReadWriteServiceImpl<Reputation, Long
             reputation.setSender(user);
             reputation.setCount(10);
             reputation.setType(ReputationType.VoteAnswer);
+            reputation.setQuestion(null);
             reputation.setAnswer(answer);
 
             reputationDao.persist(reputation);
         } else {
-            reputation.setCount(10);
+            int countBefore = reputation.getCount();
+            reputation.setCount(countBefore+10);
+
+            reputationDao.persist(reputation);
             reputationDao.update(reputation);
+
         }
         return reputation;
     }

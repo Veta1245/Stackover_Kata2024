@@ -22,9 +22,10 @@ public class AnswerDaoImpl extends ReadWriteDaoImpl<Answer, Long> implements Ans
 
     @Override
     public Optional<Answer> getAnswerById(Long answerId, User user) {
-        return SingleResultUtil.getSingleResultOrNull((Query) entityManager.createQuery("""
-                        from Answer a where a.id =: answerId and a.user.id !=: userId""", Answer.class).setParameter("answerId", answerId).
-                setParameter("userId", user.getId()));
+        return SingleResultUtil.getSingleResultOrNull(entityManager.createQuery("""
+                      SELECT a FROM Answer a WHERE a.id =: answerId AND a.user.id !=: userId""", Answer.class)
+                .setParameter("answerId", answerId)
+                .setParameter("userId", user.getId()));
     }
     @Override
     public Optional<Answer> getByAnswerIdWithoutUser(Long answerId, User user) {
