@@ -1,0 +1,35 @@
+question_has_tag:
+  - question_id: 101
+    tag_id: 101
+  - question_id: 102
+    tag_id: 101
+  - question_id: 103
+    tag_id: 106
+  - question_id: 101
+    tag_id: 104
+  - question_id: 102
+    tag_id: 105
+  - question_id: 103
+    tag_id: 106
+  - question_id: 101
+    tag_id: 103
+  - question_id: 102
+    tag_id: 106
+  - question_id: 103
+    tag_id: 101
+  - question_id: 101
+    tag_id: 106
+  - question_id: 102
+    tag_id: 107
+  - question_id: 103
+    tag_id: 108
+  - question_id: 101
+    tag_id: 109
+  - question_id: 102
+    tag_id: 110
+  - question_id: 103
+    tag_id: 111
+  - question_id: 103
+    tag_id: 112
+
+

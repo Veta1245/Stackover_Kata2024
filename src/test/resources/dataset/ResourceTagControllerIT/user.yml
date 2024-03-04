@@ -1,0 +1,15 @@
+role:
+  - id: 100
+    name: "ROLE_USER"
+
+user_entity:
+  - id: 100
+    email: "Ivan@gmail.com"
+    full_name: "Ivan User"
+    persist_date: "[now]"
+    is_enabled: true
+    is_deleted: false
+    city: "Paris"
+    last_redaction_date: "[now]"
+    password: "$2a$12$RNYsXEVvHpkM.gHvKQ797O5xaMDwAdBuoQmpW7QjOoBvZrHxatdK."
+    role_id: 100
