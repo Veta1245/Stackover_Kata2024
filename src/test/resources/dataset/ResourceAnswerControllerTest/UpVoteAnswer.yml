@@ -1,0 +1,110 @@
+answer:
+  - id: 100
+    persist_date: "[now]"
+    update_date: "[now]"
+    question_id: 100
+    user_id: 101
+    html_body: "testAnswer"
+    is_helpful: "true"
+    is_deleted: "false"
+    is_deleted_by_moderator: "false"
+    date_accept_time: "[now]"
+  - id: 101
+    persist_date: "[now]"
+    update_date: "[now]"
+    question_id: 100
+    user_id: 101
+    html_body: "testAnswer"
+    is_helpful: "true"
+    is_deleted: "false"
+    is_deleted_by_moderator: "false"
+    date_accept_time: "[now]"
+
+question:
+  - id: 100
+    title: "testTitle"
+    description: "testQuestion"
+    persist_date: "[now]"
+    user_id: 100
+    last_redaction_date: "[now]"
+    is_deleted: "false"
+  - id: 101
+    title: "testTitle"
+    description: "testQuestion"
+    persist_date: "[now]"
+    user_id: 101
+    last_redaction_date: "[now]"
+    is_deleted: "false"
+
+reputation:
+  - id: 100
+    persist_date: "[now]"
+    author_id: 101
+    sender_id: 100
+    count: 10
+    type: 1
+    answer_id: 100
+  - id: 101
+    persist_date: "[now]"
+    author_id: 101
+    sender_id: 100
+    count: 5
+    type: 1
+    answer_id: 101
+  - id: 102
+    persist_date: "[now]"
+    author_id: 101
+    sender_id: 101
+    count: 10
+    type: 1
+    answer_id: 100
+
+role:
+  - id: 100
+    name: "ROLE_USER"
+
+user_entity:
+  - id: 100
+    email: "rudova_l@list.ru"
+    password: "$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8."
+    full_name: "Liza Rudova"
+    persist_date: "[now]"
+    is_enabled: "true"
+    is_deleted: "false"
+    city: "Tomsk"
+    link_site: "test.ru"
+    link_github: "test.ru"
+    link_vk: "test.ru"
+    about: "Тестовый пользователь"
+    image_link: "test.png"
+    last_redaction_date: "[now]"
+    nickname: "user1"
+    role_id: 100
+  - id: 101
+    email: "user1@list.ru"
+    password: "$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8."
+    full_name: "user userovich"
+    persist_date: "[now]"
+    is_enabled: "true"
+    is_deleted: "false"
+    city: "Tomsk"
+    link_site: "test.ru"
+    link_github: "test.ru"
+    link_vk: "test.ru"
+    about: "Тестовый пользователь2"
+    image_link: "test.png"
+    last_redaction_date: "[now]"
+    nickname: "user1"
+    role_id: 100
+
+
+votes_on_answers:
+  - id: 100
+    user_id: 100
+    answer_id: 100
+    persist_date: "[now]"
+    vote_type: DOWN
+
+
+
+

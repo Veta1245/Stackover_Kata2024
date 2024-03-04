@@ -145,14 +145,18 @@ public class ResourceAnswerController {
             @ApiResponse(responseCode = "404", description = "Страница не найдена, сервер не может найти страницу по запросу"),
             @ApiResponse(responseCode = "500", description = "Ошибка сервера при выполнении запроса")
     })
-    public ResponseEntity<Long> upVoteAnswer(
-            @PathVariable("answerId") Long answerId,
-            @AuthenticationPrincipal User user) {
+    public ResponseEntity<Long> upVoteAnswer( @PathVariable("answerId") Long answerId,
+                                              @AuthenticationPrincipal User user) {
         try {
-
-            Long votesCount = voteAnswerService.voteUpToAnswer(answerId, user);
-            log.info("Отправка положительного голоса прошла успешно. ID вопроса: {}", answerId);
-            return new ResponseEntity<>(votesCount, HttpStatus.OK);
+            Optional<Answer> answer = Optional.ofNullable(answerService.getAnswerById(answerId, user));
+            if (answer.isEmpty()) {
+                log.info("Ответ не найден");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                Long votesCount = voteAnswerService.voteUpToAnswer(answerId, user);
+                log.info("Успешно отправлен положительный голос на ответ с id {}", answerId);
+                return new ResponseEntity<>(votesCount, HttpStatus.OK);
+            }
         } catch (Exception e) {
             log.error("При попытке голосования за ответ c ID {} произошла ошибка", answerId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

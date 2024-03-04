@@ -60,14 +60,15 @@ class ResourceAnswerControllerTest extends JmApplicationTests {
                 .andExpect(status().isNotFound());
 
     }
+
     @DataSet(value = "dataset/ResourceAnswerControllerTest/downVoteAnswer.yml", cleanBefore = true, cleanAfter = true)
     void successfulDownVoteForAnswer() throws Exception {
         VoteAnswer voteAnswerBefore = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.id = 110", VoteAnswer.class)
                 .getResultList().stream().findFirst().orElse(null);
         Reputation reputationBefore = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 101 AND r.sender.id = 100", Reputation.class).getSingleResult();
         Assertions.assertNull(voteAnswerBefore);
-        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote",101L, 101L)
-                .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote", 101L, 101L)
+                        .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
                 .andExpect(status().isOk());
 
         VoteAnswer voteAnswerAfter = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.user.id = 100 AND va.answer.id = 101", VoteAnswer.class).getSingleResult();
@@ -87,7 +88,7 @@ class ResourceAnswerControllerTest extends JmApplicationTests {
         VoteAnswer voteAnswerBefore = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.id = 100", VoteAnswer.class).getSingleResult();
         Reputation reputationBefore = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 100 AND r.sender.id = 101", Reputation.class).getSingleResult();
         Assertions.assertNotNull(voteAnswerBefore);
-        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote",100L, 100L)
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote", 100L, 100L)
                         .header("Authorization", "Bearer " + obtainAccessToken("user2@gmail.com", "123456")))
                 .andExpect(status().isOk());
 
@@ -106,8 +107,8 @@ class ResourceAnswerControllerTest extends JmApplicationTests {
     @Test
     @DataSet(value = "dataset/ResourceAnswerControllerTest/downVoteAnswer.yml", cleanBefore = true, cleanAfter = true)
     void downVoteForNonExistenAnswer() throws Exception {
-        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote",100L, 110L)
-                .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote", 100L, 110L)
+                        .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
                 .andExpect(status().isNotFound());
     }
 
@@ -118,8 +119,8 @@ class ResourceAnswerControllerTest extends JmApplicationTests {
                 .getResultList().stream().findFirst().orElse(null);
         Reputation reputationBefore = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 100 AND r.sender.id = 100", Reputation.class).getSingleResult();
         Assertions.assertNull(voteAnswerBefore);
-        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote",101L, 100L)
-                .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/downVote", 101L, 100L)
+                        .header("Authorization", "Bearer " + obtainAccessToken("user1@gmail.com", "123456")))
                 .andExpect(status().isNotFound());
 
         VoteAnswer voteAnswerAfter = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.user.id = 100 AND va.answer.id = 100", VoteAnswer.class)
@@ -127,6 +128,80 @@ class ResourceAnswerControllerTest extends JmApplicationTests {
         Reputation reputationAfter = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 100 AND r.sender.id = 100", Reputation.class).getSingleResult();
 
         Assertions.assertNull(voteAnswerAfter);
+
+        Assertions.assertEquals(reputationBefore.getCount(), reputationAfter.getCount());
+    }
+
+    @Test //тест на голосование за несуществующий ответ
+    @DataSet(value = "dataset/ResourceAnswerControllerTest/UpVoteAnswer.yml")
+    void answerNotFoundForVoteUp() throws Exception {
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/upVote", 100L, 150L)
+                        .header("Authorization", "Bearer " + obtainAccessToken("rudova_l@list.ru", "123456")))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test  //успешное голосование Up
+    @DataSet(value = "dataset/ResourceAnswerControllerTest/UpVoteAnswer.yml")
+    void successUpVoteAnswer() throws Exception {
+
+        Reputation reputationBefore = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 100 AND r.sender.id = 100", Reputation.class).getSingleResult();
+
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/upVote", 100L, 100L)
+                        .header("Authorization", "Bearer " + obtainAccessToken("rudova_l@list.ru", "123456")))
+                .andExpect(status().isOk());
+
+        VoteAnswer voteAnswer = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.user.id = 100 AND va.answer.id = 100", VoteAnswer.class).getSingleResult();
+        Reputation reputationAfter = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 100 AND r.sender.id = 100", Reputation.class).getSingleResult();
+
+        Assertions.assertNotNull(voteAnswer);
+        Assertions.assertNotNull(reputationAfter);
+
+        Assertions.assertEquals(VoteType.UP, voteAnswer.getVoteType());
+        Assertions.assertEquals(-10, reputationBefore.getCount() - reputationAfter.getCount());
+
+
+    }
+
+    @Test // успешная замена голоса с DOWN на UP
+    @DataSet(value = "dataset/ResourceAnswerControllerTest/UpVoteAnswer.yml")
+    void successOppositeVoteFromDownToUp() throws Exception {
+        VoteAnswer voteAnswerBefore = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.id = 100 AND va.answer.id = 100", VoteAnswer.class).getSingleResult();
+        Reputation reputationBefore = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 101 AND r.sender.id = 100", Reputation.class).getSingleResult();
+        Assertions.assertNotNull(voteAnswerBefore);
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/upVote", 100L, 101L)
+                        .header("Authorization", "Bearer " + obtainAccessToken("rudova_l@list.ru", "123456")))
+                .andExpect(status().isOk());
+
+        VoteAnswer voteAnswer = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.user.id = 100 AND va.answer.id = 101", VoteAnswer.class).getSingleResult();
+        Reputation reputationAfter = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 101 AND r.sender.id = 100", Reputation.class).getSingleResult();
+
+        Assertions.assertNotNull(voteAnswer);
+        Assertions.assertNotNull(reputationAfter);
+
+        Assertions.assertEquals(VoteType.DOWN, voteAnswerBefore.getVoteType());
+        Assertions.assertEquals(VoteType.UP, voteAnswer.getVoteType());
+        Assertions.assertEquals(-10, reputationBefore.getCount() - reputationAfter.getCount());
+
+
+    }
+
+    @Test //голосование за свой же ответ (запрещено)
+    @DataSet(value = "dataset/ResourceAnswerControllerTest/UpVoteAnswer.yml")
+    void tryingToUpVoteYourOwnAnswer() throws Exception {
+
+        Reputation reputationBefore = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 100 AND r.sender.id = 101", Reputation.class)
+                .getResultList().stream().findFirst().orElse(null);
+
+        mockMvc.perform(post("/api/user/question/{questionId}/answer/{answerId}/upVote", 100L, 100L)
+                        .header("Authorization", "Bearer " + obtainAccessToken("user1@list.ru", "123456")))
+                .andExpect(status().isNotFound());
+
+        VoteAnswer voteAnswer = entityManager.createQuery("SELECT va FROM VoteAnswer va WHERE va.user.id = 101 AND va.answer.id = 100", VoteAnswer.class)
+                .getResultList().stream().findFirst().orElse(null);
+
+        Reputation reputationAfter = entityManager.createQuery("SELECT r FROM Reputation r WHERE r.answer.id = 100 AND r.sender.id = 101", Reputation.class).getSingleResult();
+
+        Assertions.assertNull(voteAnswer);
 
         Assertions.assertEquals(reputationBefore.getCount(), reputationAfter.getCount());
     }

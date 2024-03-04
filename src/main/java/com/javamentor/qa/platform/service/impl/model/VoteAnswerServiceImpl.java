@@ -35,7 +35,8 @@ public class VoteAnswerServiceImpl extends ReadWriteServiceImpl<VoteAnswer, Long
         Answer answer = answerService.getAnswerById(answerId, user);
         reputationService.addReputation(answerId, user);
 
-        VoteAnswer voteAnswer = voteAnswerDao.getVoteAnswerByAnswerIdAndUser(answerId, user).orElse(null);
+
+        VoteAnswer voteAnswer = voteAnswerDao.getVoteAnswerByAnswerIdAndUser(answerId, user.getId()).orElse(null);
 
         if (voteAnswer == null) {
             voteAnswer = new VoteAnswer();
@@ -43,6 +44,8 @@ public class VoteAnswerServiceImpl extends ReadWriteServiceImpl<VoteAnswer, Long
             voteAnswer.setAnswer(answer);
             voteAnswer.setPersistDateTime(LocalDateTime.now());
             voteAnswer.setVoteType(VoteType.UP);
+
+            voteAnswerDao.persist(voteAnswer);
         } else if (voteAnswer.getVoteType() == VoteType.DOWN) {
             voteAnswer.setVoteType(VoteType.UP);
             voteAnswerDao.update(voteAnswer);
