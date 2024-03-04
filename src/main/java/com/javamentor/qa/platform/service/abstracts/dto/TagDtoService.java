@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface TagDtoService {
     List<TagDto> getTop3TagsByUserId(Long userId);
+    Optional<TagDto> getTag(Long tagId);
 
     Optional<List<RelatedTagDto>> getTop10Tags();
 }

@@ -23,6 +23,11 @@ public class TagDtoServiceImpl implements TagDtoService {
     }
 
     @Override
+    public Optional<TagDto> getTag(Long tagId) {
+        return tagDtoDao.getTag(tagId);
+    }
+
+    @Override
     public Optional<List<RelatedTagDto>> getTop10Tags() {
         List<RelatedTagDto> topTags = tagDtoDao.getTopTags();
         return topTags.isEmpty() ? Optional.empty() : Optional.of(topTags);
